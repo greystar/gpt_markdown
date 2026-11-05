@@ -737,9 +737,9 @@ class PlusparseRenderer {
         );
       case MdItalic(:final children):
         final conf = config.copyWith(
-          style: (config.style ?? const TextStyle()).copyWith(
-            fontStyle: FontStyle.italic,
-          ),
+          style: (config.style ?? const TextStyle())
+              .copyWith(fontStyle: FontStyle.italic)
+              .merge(resolvedStyleSheet(context, config).italic),
         );
         return TextSpan(
           children: _inlineSpans(context, children, conf, linkTap: linkTap),

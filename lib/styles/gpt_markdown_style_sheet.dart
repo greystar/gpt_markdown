@@ -49,6 +49,7 @@ class GptMarkdownStyleSheet {
     this.heading,
     this.link,
     this.inlineCode,
+    this.italic,
     this.list,
     this.checkbox,
     this.codeBlock,
@@ -74,6 +75,15 @@ class GptMarkdownStyleSheet {
 
   /// How inline `code` is drawn.
   final InlineCodeStyle? inlineCode;
+
+  /// Text style for emphasis (`*text*`, `_text_` and enabled HTML italic tags).
+  ///
+  /// Merged over the surrounding text with italic enabled by default. Setting
+  /// only a colour keeps the italic font style; [FontStyle.normal] explicitly
+  /// disables it. Widget properties override theme properties using
+  /// [TextStyle.merge], including its `inherit: false` replacement semantics.
+  /// Null preserves the default appearance.
+  final TextStyle? italic;
 
   /// How ordered and unordered lists are drawn.
   final ListStyle? list;
@@ -128,6 +138,8 @@ class GptMarkdownStyleSheet {
       heading: heading?.merge(other.heading) ?? other.heading,
       link: link?.merge(other.link) ?? other.link,
       inlineCode: inlineCode?.merge(other.inlineCode) ?? other.inlineCode,
+      // TextStyle.merge gives its argument precedence, unlike style sheets.
+      italic: other.italic?.merge(italic) ?? italic,
       list: list?.merge(other.list) ?? other.list,
       checkbox: checkbox?.merge(other.checkbox) ?? other.checkbox,
       codeBlock: codeBlock?.merge(other.codeBlock) ?? other.codeBlock,
@@ -149,6 +161,7 @@ class GptMarkdownStyleSheet {
     HeadingStyle? heading,
     LinkStyle? link,
     InlineCodeStyle? inlineCode,
+    TextStyle? italic,
     ListStyle? list,
     CheckboxStyle? checkbox,
     CodeBlockStyle? codeBlock,
@@ -167,6 +180,7 @@ class GptMarkdownStyleSheet {
       heading: heading ?? this.heading,
       link: link ?? this.link,
       inlineCode: inlineCode ?? this.inlineCode,
+      italic: italic ?? this.italic,
       list: list ?? this.list,
       checkbox: checkbox ?? this.checkbox,
       codeBlock: codeBlock ?? this.codeBlock,
@@ -196,6 +210,7 @@ class GptMarkdownStyleSheet {
       heading: HeadingStyle.lerp(a?.heading, b?.heading, t),
       link: LinkStyle.lerp(a?.link, b?.link, t),
       inlineCode: InlineCodeStyle.lerp(a?.inlineCode, b?.inlineCode, t),
+      italic: TextStyle.lerp(a?.italic, b?.italic, t),
       list: ListStyle.lerp(a?.list, b?.list, t),
       checkbox: CheckboxStyle.lerp(a?.checkbox, b?.checkbox, t),
       codeBlock: CodeBlockStyle.lerp(a?.codeBlock, b?.codeBlock, t),
@@ -221,6 +236,7 @@ class GptMarkdownStyleSheet {
         other.heading == heading &&
         other.link == link &&
         other.inlineCode == inlineCode &&
+        other.italic == italic &&
         other.list == list &&
         other.checkbox == checkbox &&
         other.codeBlock == codeBlock &&
@@ -241,6 +257,7 @@ class GptMarkdownStyleSheet {
     heading,
     link,
     inlineCode,
+    italic,
     list,
     checkbox,
     codeBlock,

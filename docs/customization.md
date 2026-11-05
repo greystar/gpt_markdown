@@ -69,6 +69,48 @@ Overriding one value never discards the rest.
 
 ---
 
+## Italic text
+
+Set `italic` to a `TextStyle` to customise emphasis without changing the
+surrounding text:
+
+```dart
+GptMarkdown(
+  'Plain text and *emphasised text*.',
+  style: const TextStyle(color: Colors.white),
+  styleSheet: const GptMarkdownStyleSheet(
+    italic: TextStyle(color: Colors.grey),
+  ),
+)
+```
+
+Setting only a colour keeps the default italic font style and inherits the
+surrounding font and size. To use upright text instead, explicitly set
+`fontStyle: FontStyle.normal` in the `italic` style.
+
+For an app-wide default, use the same field in the theme:
+
+```dart
+GptMarkdownThemeData(
+  brightness: Brightness.dark,
+  styleSheet: const GptMarkdownStyleSheet(
+    italic: TextStyle(color: Colors.grey),
+  ),
+)
+```
+
+The widget's `italic` properties override the theme's properties through
+`TextStyle.merge`. For example, a widget that sets only `fontSize` keeps the
+theme's emphasis colour. As with Flutter text styles, `inherit: false` replaces
+the inherited style instead of merging it.
+
+This applies to all emphasis nodes in the default renderer: `*text*`, `_text_`
+and enabled HTML italic tags such as `<i>` and `<em>`, including emphasis
+nested in other formatting. With no `italic` configuration, the existing
+appearance is unchanged. The deprecated regex components are unaffected.
+
+---
+
 ## Spacing between blocks
 
 `blockSpacing` sets the vertical gap between blocks — paragraphs, headings,
